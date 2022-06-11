@@ -7,26 +7,36 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-
-
 @Entity
-@Table(name = "tb_role")
-public class Role implements Serializable{
+@Table(name = "tb_review")
+public class Review implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String authority;
+	private String text;
 	
-	public Role() {
+	@ManyToOne
+	@JoinColumn(name = "movie_id")
+	private Movie movie;
+	
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User user;
+	
+	public Review() {
 	}
 
-	public Role(Long id, String authority) {
+	public Review(Long id, String text, Movie movie, User user) {
 		this.id = id;
-		this.authority = authority;
+		this.text = text;
+		this.movie = movie;
+		this.user = user;
 	}
 
 	public Long getId() {
@@ -37,12 +47,28 @@ public class Role implements Serializable{
 		this.id = id;
 	}
 
-	public String getAuthority() {
-		return authority;
+	public String getText() {
+		return text;
 	}
 
-	public void setAuthority(String authority) {
-		this.authority = authority;
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	public Movie getMovie() {
+		return movie;
+	}
+
+	public void setMovie(Movie movie) {
+		this.movie = movie;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	@Override
@@ -58,7 +84,8 @@ public class Role implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Role other = (Role) obj;
+		Review other = (Review) obj;
 		return Objects.equals(id, other.id);
 	}
+	
 }
